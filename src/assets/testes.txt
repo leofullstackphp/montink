@@ -1,0 +1,108 @@
+<?php
+require_once('vendor/autoload.php');
+
+$client = new \GuzzleHttp\Client();
+
+$response = $client->request('POST', 'https://api.zoop.ws/v1/marketplaces/9c3d8af73a5c40718a4c9a720ea7c045/transactions', [
+  'body' => '{"payment_type":"pix","on_behalf_of":"b9147602bff847bcba299f6a8bfc2fae","description":"Teste api pix","currency":"BRL","amount":1000}',
+  'headers' => [
+    'accept' => 'application/json',
+    'authorization' => 'Basic enBrX3Byb2RfMW1SUWp5Y2dCWGUydTg1SGpxU3hzNGhzOg==',
+    'content-type' => 'application/json',
+  ],
+]);
+
+echo $response->getBody();
+
+
+
+RETORNO CRIACAO PIX
+{
+  "id": "f53a96bdbc89470e8b3932cc8a28a4ae",
+  "resource": "transaction",
+  "status": "pending",
+  "amount": "10.00",
+  "original_amount": "10.00",
+  "currency": "BRL",
+  "description": "Teste api pix",
+  "payment_type": "pix",
+  "transaction_number": null,
+  "gateway_authorizer": "zoop",
+  "app_transaction_uid": null,
+  "refunds": null,
+  "rewards": null,
+  "discounts": null,
+  "pre_authorization": null,
+  "sales_receipt": null,
+  "on_behalf_of": "b9147602bff847bcba299f6a8bfc2fae",
+  "customer": null,
+  "statement_descriptor": "ESTOQUE",
+  "payment_method": {
+    "id": "919ab067aba1422d87a61cdf32d65dcc",
+    "provider": "ITAU",
+    "version": "2.0.0",
+    "type": "DYNAMIC",
+    "reusable": false,
+    "allow_update": false,
+    "expiration_date": "2024-09-08 18:26:24",
+    "key": {
+      "type": "EVP",
+      "value": "15240aab-3e42-4cb5-b9ee-18b9d901"
+    },
+    "pix_link": "NA",
+    "qr_code": {
+      "emv": "00020101021226770014BR.GOV.BCB.PIX2555api.itau/pix/qr/v2/d31dccb0-deb5-4db2-8587-6452e476bb365204000053039865802BR5925ZOOP TECNOLOGIA E MEIOS D6009SAO PAULO62070503***6304F616"
+    }
+  },
+  "source": null,
+  "point_of_sale": {
+    "entry_mode": "barcode",
+    "identification_number": null
+  },
+  "installment_plan": null,
+  "refunded": false,
+  "voided": false,
+  "captured": false,
+  "fees": "0.00",
+  "fee_details": null,
+  "location_latitude": null,
+  "location_longitude": null,
+  "uri": "/v1/marketplaces/9c3d8af73a5c40718a4c9a720ea7c045/transactions/f53a96bdbc89470e8b3932cc8a28a4ae",
+  "metadata": {},
+  "expected_on": "2024-09-09T00:00:00+00:00",
+  "created_at": "2024-09-08T18:21:24+00:00",
+  "updated_at": "2024-09-08T18:21:25+00:00",
+  "payment_authorization": null,
+  "history": [
+    {
+      "id": "60ab3bec84564eecbc5d93e586b52080",
+      "transaction": "f53a96bdbc89470e8b3932cc8a28a4ae",
+      "amount": "10.00",
+      "operation_type": "created",
+      "status": "succeeded",
+      "response_code": null,
+      "response_message": null,
+      "authorization_code": null,
+      "authorizer_id": null,
+      "authorization_nsu": null,
+      "gatewayResponseTime": null,
+      "authorizer": null,
+      "created_at": "2024-09-08 18:21:25"
+    },
+    {
+      "id": "ef3ccb2cc8e74eb29e591a29d3ffffaa",
+      "transaction": "f53a96bdbc89470e8b3932cc8a28a4ae",
+      "amount": "10.00",
+      "operation_type": "proposal",
+      "status": "succeeded",
+      "response_code": null,
+      "response_message": null,
+      "authorization_code": null,
+      "authorizer_id": null,
+      "authorization_nsu": null,
+      "gatewayResponseTime": null,
+      "authorizer": "zoop",
+      "created_at": "2024-09-08 18:21:25"
+    }
+  ]
+}
