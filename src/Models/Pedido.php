@@ -12,8 +12,51 @@ class Pedido extends Database
     }
 
     public function list()
-    {    
+    {
+        $table = "pedidos p
+            LEFT JOIN pedido_itens pi ON pi.pedido_id = p.id
+            LEFT JOIN produtos prod ON prod.id = pi.produto_id";
+
+        $fields = "p.id, 
+            p.status, 
+            p.criado_em, 
+            pi.quantidade, 
+            pi.preco_unitario, 
+            prod.nome AS produto_nome";
+
+        $orderBy = "p.id DESC";
+
+        // Consulta
+        $result = $this->db->select($table, $fields, '', [], $orderBy);
+
+        // Agrupar itens dentro de cada pedido
+        $pedidos = [];
+
+        foreach ($result as $row) {
+            $id = $row['id'];
+
+            if (!isset($pedidos[$id])) {
+                $pedidos[$id] = [
+                    'id'        => $row['id'],
+                    'status'    => $row['status'],
+                    'criado_em' => $row['criado_em'],
+                    'itens'     => []
+                ];
+            }
+
+            // Adiciona item do pedido
+            if (!empty($row['produto_nome'])) {
+                $pedidos[$id]['itens'][] = [
+                    'produto_nome'   => $row['produto_nome'],
+                    'quantidade'     => $row['quantidade'],
+                    'preco_unitario' => $row['preco_unitario']
+                ];
+            }
+        }
+
+        return array_values($pedidos);
     }
+
     
     public function edit($id)
     {

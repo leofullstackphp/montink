@@ -28,6 +28,7 @@ $dotenv->load();
         $r->addRoute('GET', '/cupons', 'App\Controllers\CuponsController@index');
         $r->addRoute('PUT', '/api/carrinho/{id:\d+}/cupom', 'App\Controllers\CuponsController@addCupom');
         $r->addRoute('POST', '/api/webhook', 'App\Controllers\WebhookController@webhook');
+        $r->addRoute('GET', '/pedidos', 'App\Controllers\PedidosController@index');
 
     });
 

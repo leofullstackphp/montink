@@ -25,6 +25,8 @@ class PedidosController
 
     public function index()
     {
+        $pedidos = $this->pedido->list();
+        require __DIR__ . '/../Views/pedidos.php';
     }
     
     public function edit($id)

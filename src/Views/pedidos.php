@@ -31,7 +31,7 @@
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>Cupons</h3>
+                                <h3>Pedidos</h3>
                                 <p class="text-subtitle text-muted">Olá <?= $_SESSION['document'] ?> ,
 
                                 </p>
@@ -54,43 +54,52 @@
                         <div class="row">
                             <div class="col-12">
 
-
-                                <!-- LISTAGEM CUPONS -->
+                                <!-- LISTAGEM PEDIDOS -->
                                 <div class="card shadow-sm rounded">
-                                    <div class="card-header">
-                                        <h4 class="mb-0">🏷️ Lista de Cupons</h4>
+                                    <div class="card-header ">
+                                        <h4 class="mb-0">📦 Lista de Pedidos</h4>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table table-hover align-middle" id="cupons-table">
+                                        <table class="table table-hover align-middle" id="pedidos-table">
                                             <thead class="table-light">
                                                 <tr>
-                                                    <th>Código</th>
-                                                    <th>Tipo</th>
-                                                    <th>Valor</th>
-                                                    <th>Validade</th>
+                                                    <th>#</th>
+                                                    <th>Status</th>
+                                                    <th>Data</th>
+                                                    <th>Itens</th>
                                                     <th class="text-center">Ações</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($cupons as $cupom): ?>
+                                                <?php foreach ($pedidos as $pedido): ?>
                                                     <tr>
-                                                        <td><strong><?= strtoupper($cupom['codigo']) ?></strong></td>
+                                                        <td><span class="badge bg-dark"><?= $pedido['id'] ?></span></td>
                                                         <td>
                                                             <span class="badge 
-                                <?= $cupom['tipo'] === 'percentual' ? 'bg-primary' : 'bg-warning text-dark' ?>">
-                                                                <?= ucfirst($cupom['tipo']) ?>
+                                <?= $pedido['status'] === 'pago' ? 'bg-success' : ($pedido['status'] === 'cancelado' ? 'bg-danger' : 'bg-secondary') ?>">
+                                                                <?= ucfirst($pedido['status']) ?>
                                                             </span>
                                                         </td>
-                                                        <td>R$ <?= number_format($cupom['valor'], 2, ',', '.') ?></td>
-                                                        <td><?= date('d/m/Y', strtotime($cupom['validade'])) ?></td>
+                                                        <td><?= date('d/m/Y H:i', strtotime($pedido['criado_em'])) ?></td>
+                                                        <td>
+                                                            <ul class="mb-0 ps-3 small">
+                                                                <?php foreach ($pedido['itens'] as $item): ?>
+                                                                    <li>
+                                                                        <?= $item['produto_nome'] ?> —
+                                                                        <?= $item['quantidade'] ?> un —
+                                                                        R$ <?= number_format($item['preco_unitario'], 2, ',', '.') ?>
+                                                                    </li>
+                                                                <?php endforeach; ?>
+                                                            </ul>
+                                                        </td>
                                                         <td class="text-center">
                                                             <div class="btn-group">
-                                                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                                                    <i class="bi bi-pencil"></i>
-                                                                </a>
-                                                                <a href="#" class="btn btn-sm btn-outline-danger">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </a>
+                                                                <button class="btn btn-sm btn-outline-success" onclick="verPedido(<?= $pedido['id'] ?>)">
+                                                                    <i class="bi bi-eye"></i> Ver
+                                                                </button>
+                                                                <button class="btn btn-sm btn-outline-danger" onclick="cancelarPedido(<?= $pedido['id'] ?>)">
+                                                                    <i class="bi bi-x-circle"></i> Cancelar
+                                                                </button>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -99,6 +108,18 @@
                                         </table>
                                     </div>
                                 </div>
+
+                                <script>
+                                    function cancelarPedido(id) {
+                                        if (confirm("Tem certeza que deseja cancelar o pedido #" + id + "?")) {
+                                            alert("Pedido " + id + " cancelado! (simulação)");
+                                        }
+                                    }
+                                    function verPedido(id) {
+                                        alert("Pedido " + id );
+                                        
+                                    }
+                                </script>
 
                             </div>
                         </div>
@@ -122,7 +143,7 @@
     <script src="src/assets/js/main.js"></script>
 
     <script>
-        let tabelaCupons = new simpleDatatables.DataTable("#cupons-table");
+        let tabelaPeidos = new simpleDatatables.DataTable("#pedidos-table");
     </script>
 
 </body>
